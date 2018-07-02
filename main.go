@@ -23,20 +23,25 @@ func main() {
   fmt.Println("Server Running on :8000")
 
   router := mux.NewRouter()
-  router.HandleFunc("/api/v1/foods", a.getFoods).Methods("GET")
+  router.HandleFunc("/api/v1/foods", a.GetFoods).Methods("GET")
   // sub.HandleFunc("/meals", a.GetAllMeals).Methods("GET")
   // sub.HandleFunc("/meals/{id}/foods", a.GetMeal).Methods("GET")
   // sub.HandleFunc("/foods/{id}", a.GetFood).Methods("GET")
-  // sub.HandleFunc("/foods", a.CreateFood).Methods("POST")
+  router.HandleFunc("/api/v1/foods", a.CreateFood).Methods("POST")
   // sub.HandleFunc("/meal-foods", a.GetAllMealFoods).Methods("GET")
   // sub.HandleFunc("/meals/{meal_id}/foods/{id}", a.CreateMealFood).Methods("POST")
   // sub.HandleFunc("/meals/{meal_id}/foods/{id}", a.DeleteMealFood).Methods("DELETE")
   log.Fatal(http.ListenAndServe(":8000", router))
 }
 
-func (a *App) getFoods(w http.ResponseWriter, r *http.Request) {
+func (a *App) GetFoods(w http.ResponseWriter, r *http.Request) {
   handler.GetFoods(a.DB, w, r)
 }
+
+func (a *App) CreateFood(w http.ResponseWriter, r *http.Request) {
+  handler.CreateFood(a.DB, w, r)
+}
+
 
 func (a *App) Init(config *config.Config) {
   dbParams := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s",
