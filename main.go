@@ -26,7 +26,7 @@ func main() {
   router.HandleFunc("/api/v1/foods", a.GetFoods).Methods("GET")
   // sub.HandleFunc("/meals", a.GetAllMeals).Methods("GET")
   // sub.HandleFunc("/meals/{id}/foods", a.GetMeal).Methods("GET")
-  // sub.HandleFunc("/foods/{id}", a.GetFood).Methods("GET")
+  router.HandleFunc("/api/v1/foods/{id}", a.GetFood).Methods("GET")
   router.HandleFunc("/api/v1/foods", a.CreateFood).Methods("POST")
   // sub.HandleFunc("/meal-foods", a.GetAllMealFoods).Methods("GET")
   // sub.HandleFunc("/meals/{meal_id}/foods/{id}", a.CreateMealFood).Methods("POST")
@@ -36,6 +36,10 @@ func main() {
 
 func (a *App) GetFoods(w http.ResponseWriter, r *http.Request) {
   handler.GetFoods(a.DB, w, r)
+}
+
+func (a *App) GetFood(w http.ResponseWriter, r *http.Request) {
+  handler.GetFood(a.DB, w, r)
 }
 
 func (a *App) CreateFood(w http.ResponseWriter, r *http.Request) {
