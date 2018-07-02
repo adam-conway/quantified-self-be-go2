@@ -5,7 +5,7 @@ import (
   "encoding/json"
   // "fmt"
 
-  // "github.com/gorilla/mux"
+  "github.com/gorilla/mux"
   "github.com/jinzhu/gorm"
   _ "github.com/jinzhu/gorm/dialects/postgres"
   "github.com/adam-conway/quantified-self-be-go/models"
@@ -15,6 +15,14 @@ func GetFoods(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
   foods := []models.Food{}
   db.Find(&foods)
   RespondJSON(w, http.StatusOK, foods)
+}
+
+func GetFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+  food := models.Food{}
+  params := mux.Vars(r)
+
+  db.First(&food, params["id"])
+  RespondJSON(w, http.StatusOK, food)
 }
 
 func CreateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
