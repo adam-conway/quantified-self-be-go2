@@ -28,7 +28,7 @@ func main() {
   // sub.HandleFunc("/meals/{id}/foods", a.GetMeal).Methods("GET")
   router.HandleFunc("/api/v1/foods/{id}", a.GetFood).Methods("GET")
   router.HandleFunc("/api/v1/foods", a.CreateFood).Methods("POST")
-  // sub.HandleFunc("/meal-foods", a.GetAllMealFoods).Methods("GET")
+  router.HandleFunc("/api/v1/foods/{id}", a.UpdateFood).Methods("PUT")
   // sub.HandleFunc("/meals/{meal_id}/foods/{id}", a.CreateMealFood).Methods("POST")
   // sub.HandleFunc("/meals/{meal_id}/foods/{id}", a.DeleteMealFood).Methods("DELETE")
   log.Fatal(http.ListenAndServe(":8000", router))
@@ -44,6 +44,10 @@ func (a *App) GetFood(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) CreateFood(w http.ResponseWriter, r *http.Request) {
   handler.CreateFood(a.DB, w, r)
+}
+
+func (a *App) UpdateFood(w http.ResponseWriter, r *http.Request) {
+  handler.UpdateFood(a.DB, w, r)
 }
 
 

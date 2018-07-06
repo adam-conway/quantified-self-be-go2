@@ -3,7 +3,6 @@ package handler
 import (
   "net/http"
   "encoding/json"
-  // "fmt"
 
   "github.com/gorilla/mux"
   "github.com/jinzhu/gorm"
@@ -22,6 +21,20 @@ func GetFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
   params := mux.Vars(r)
 
   db.First(&food, params["id"])
+  RespondJSON(w, http.StatusOK, food)
+}
+
+func UpdateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+  food := models.Food{}
+  params := mux.Vars(r)
+  db.First(&food, params["id"])
+  err := json.NewDecoder(r.Body).Decode(&food)
+		if err != nil {
+			http.Error(w, err.Error(), 400)
+			return
+		}
+  db.Save(&food)
+
   RespondJSON(w, http.StatusOK, food)
 }
 
