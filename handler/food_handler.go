@@ -3,8 +3,6 @@ package handler
 import (
   "net/http"
   "encoding/json"
-  // "fmt"
-  // "strconv"
 
   "github.com/gorilla/mux"
   "github.com/jinzhu/gorm"
