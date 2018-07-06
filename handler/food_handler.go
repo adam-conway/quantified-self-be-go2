@@ -24,6 +24,16 @@ func GetFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
   RespondJSON(w, http.StatusOK, food)
 }
 
+func DeleteFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+  food := models.Food{}
+  params := mux.Vars(r)
+
+  db.First(&food, params["id"])
+  db.Delete(&food)
+
+  RespondJSON(w, http.StatusOK, food)
+}
+
 func UpdateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
   food := models.Food{}
   params := mux.Vars(r)

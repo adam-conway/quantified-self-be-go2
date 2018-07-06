@@ -24,6 +24,7 @@ func main() {
 
   router := mux.NewRouter()
   router.HandleFunc("/api/v1/foods", a.GetFoods).Methods("GET")
+  router.HandleFunc("/api/v1/foods/{id}", a.DeleteFood).Methods("DELETE")
   // sub.HandleFunc("/meals", a.GetAllMeals).Methods("GET")
   // sub.HandleFunc("/meals/{id}/foods", a.GetMeal).Methods("GET")
   router.HandleFunc("/api/v1/foods/{id}", a.GetFood).Methods("GET")
@@ -48,6 +49,10 @@ func (a *App) CreateFood(w http.ResponseWriter, r *http.Request) {
 
 func (a *App) UpdateFood(w http.ResponseWriter, r *http.Request) {
   handler.UpdateFood(a.DB, w, r)
+}
+
+func (a *App) DeleteFood(w http.ResponseWriter, r *http.Request) {
+  handler.DeleteFood(a.DB, w, r)
 }
 
 
