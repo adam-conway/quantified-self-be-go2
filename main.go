@@ -8,6 +8,7 @@ import (
   "github.com/jinzhu/gorm"
   _ "github.com/jinzhu/gorm/dialects/postgres"
   "github.com/gorilla/mux"
+  "github.com/adam-conway/quantified-self-be-go/models"
   "github.com/adam-conway/quantified-self-be-go/config"
   "github.com/adam-conway/quantified-self-be-go/handler"
 )
@@ -25,7 +26,7 @@ func main() {
   router := mux.NewRouter()
   router.HandleFunc("/api/v1/foods", a.GetFoods).Methods("GET")
   router.HandleFunc("/api/v1/foods/{id}", a.DeleteFood).Methods("DELETE")
-  // sub.HandleFunc("/meals", a.GetAllMeals).Methods("GET")
+  router.HandleFunc("/api/v1/meals", a.GetMeals).Methods("GET")
   // sub.HandleFunc("/meals/{id}/foods", a.GetMeal).Methods("GET")
   router.HandleFunc("/api/v1/foods/{id}", a.GetFood).Methods("GET")
   router.HandleFunc("/api/v1/foods", a.CreateFood).Methods("POST")
@@ -55,6 +56,10 @@ func (a *App) DeleteFood(w http.ResponseWriter, r *http.Request) {
   handler.DeleteFood(a.DB, w, r)
 }
 
+func (a *App) GetMeals(w http.ResponseWriter, r *http.Request) {
+  handler.GetMeals(a.DB, w, r)
+}
+
 
 func (a *App) Init(config *config.Config) {
   dbParams := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s",
@@ -76,7 +81,7 @@ func (a *App) Init(config *config.Config) {
 }
 
 func (a *App) Migrate() {
-  // a.DB.AutoMigrate(&models.Food{})
-  // a.DB.AutoMigrate(&models.Meal{})
-  // a.DB.AutoMigrate(&models.MealFood{})
+  a.DB.AutoMigrate(&models.Food{})
+  a.DB.AutoMigrate(&models.Meal{})
+  a.DB.AutoMigrate(&models.MealFood{})
 }
