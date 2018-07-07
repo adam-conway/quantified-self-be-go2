@@ -19,7 +19,7 @@ type Config struct {
 func GetConfig() *Config {
   return &Config {
     DB: &DBConfig {
-      Host: "localhost",
+      Host: "heroku-postgresql",
       Port: "5432",
       // User: "adamconway",
       User: os.Getenv("QS_GO_DB_USERNAME"),
