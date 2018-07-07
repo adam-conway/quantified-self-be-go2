@@ -93,8 +93,11 @@ func (a *App) Init(config *config.Config) {
 }
 
 func (a *App) Migrate() {
+  a.DB.DropTable(&models.Food{})
   a.DB.AutoMigrate(&models.Food{})
+  a.DB.DropTable(&models.Meal{})
   a.DB.AutoMigrate(&models.Meal{})
+  a.DB.DropTable(&models.MealFood{})
   a.DB.AutoMigrate(&models.MealFood{})
 
   meal1 := &models.Meal{Name: "breakfast"}
