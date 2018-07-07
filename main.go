@@ -97,22 +97,22 @@ func (a *App) Migrate() {
   a.DB.AutoMigrate(&models.Meal{})
   a.DB.AutoMigrate(&models.MealFood{})
 
-  meal1 := Meal{Name: "breakfast"}
+  meal1 := &models.Meal{Name: "breakfast"}
   a.DB.NewRecord(meal1)
   a.DB.Create(&meal1)
   a.DB.NewRecord(meal1)
 
-  meal2 := Meal{Name: "snack"}
+  meal2 := &models.Meal{Name: "snack"}
   a.DB.NewRecord(meal2)
   a.DB.Create(&meal2)
   a.DB.NewRecord(meal2)
 
-  meal3 := Meal{Name: "lunch"}
+  meal3 := &models.Meal{Name: "lunch"}
   a.DB.NewRecord(meal3)
   a.DB.Create(&meal3)
   a.DB.NewRecord(meal3)
 
-  meal4 := Meal{Name: "dinner"}
+  meal4 := &models.Meal{Name: "dinner"}
   a.DB.NewRecord(meal4)
   a.DB.Create(&meal4)
   a.DB.NewRecord(meal4)
