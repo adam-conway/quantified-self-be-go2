@@ -4,6 +4,7 @@ import (
   "net/http"
   "log"
   "fmt"
+  "os"
 
   "github.com/jinzhu/gorm"
   _ "github.com/jinzhu/gorm/dialects/postgres"
@@ -21,7 +22,11 @@ func main() {
   config := config.GetConfig()
   a := &App{}
   a.Init(config)
-  fmt.Println("Server Running on :5432")
+  port := os.Getenv("PORT")
+  if port == "" {
+    port = "8080"
+  }
+  // fmt.Println("Server Running on :5432")
 
   router := mux.NewRouter()
   router.HandleFunc("/api/v1/foods", a.GetFoods).Methods("GET")
@@ -33,7 +38,7 @@ func main() {
   router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}", a.CreateMealFood).Methods("POST")
   router.HandleFunc("/api/v1/meals/{id}/foods", a.GetMeal).Methods("GET")
   router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}", a.DeleteMealFood).Methods("DELETE")
-  log.Fatal(http.ListenAndServe(":5432", router))
+  log.Fatal(http.ListenAndServe(":"+port, router))
 }
 
 func (a *App) GetFoods(w http.ResponseWriter, r *http.Request) {
