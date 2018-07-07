@@ -11,6 +11,7 @@ import (
 )
 
 func GetFoods(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
+  (*w).Header().Set("Access-Control-Allow-Origin", "*")
   foods := []models.Food{}
   db.Find(&foods)
   RespondJSON(w, http.StatusOK, foods)
