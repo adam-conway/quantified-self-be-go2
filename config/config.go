@@ -24,7 +24,7 @@ func GetConfig() *Config {
       // User: "adamconway",
       User: os.Getenv("QS_GO_DB_USERNAME"),
       // DBName: "adamconway",
-      DBName: os.Getenv("DATABASE_URL"),
+      DBName: os.Getenv("dbname"),
       SSLMode: "disable",
     },
   }
