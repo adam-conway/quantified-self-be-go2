@@ -1,5 +1,9 @@
 package config
 
+import (
+  "os"
+)
+
 type DBConfig struct {
   Host string
   Port string
@@ -17,8 +21,10 @@ func GetConfig() *Config {
     DB: &DBConfig {
       Host: "localhost",
       Port: "5432",
-      User: "adamconway",
-      DBName: "adamconway",
+      // User: "adamconway",
+      User: os.Getenv("QS_GO_DB_USERNAME"),
+      // DBName: "adamconway",
+      DBName: os.Getenv("QS_GO_DB_NAME"),
       SSLMode: "disable",
     },
   }
