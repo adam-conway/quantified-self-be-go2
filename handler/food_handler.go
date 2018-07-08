@@ -4,6 +4,7 @@ import (
   "net/http"
   "encoding/json"
   "fmt"
+  "strconv"
 
   "github.com/gorilla/mux"
   "github.com/jinzhu/gorm"
@@ -51,6 +52,16 @@ func UpdateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 
 func CreateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
   food := models.Food{}
+  params := mux.Vars(r)
+  fmt.Println(params["name"])
+  calories, err := strconv.ParseUint(params["calories"], 10, 32)
+  if err != nil {
+        fmt.Println(err)
+    }
+  foodcalories := uint(calories)
+  fmt.Println(foodcalories)
+  food.Name = params["name"]
+  food.Calories = foodcalories
   decoder := json.NewDecoder(r.Body)
   if err := decoder.Decode(&food); err != nil {
     RespondError(w, http.StatusBadRequest, err.Error())
@@ -58,8 +69,6 @@ func CreateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
   }
 
   defer r.Body.Close()
-  fmt.Println(food.Name)
-  fmt.Println(food.Calories)
   db.NewRecord(food)
   if err := db.Create(&food).Error; err != nil {
     RespondError(w, http.StatusInternalServerError, err.Error())
