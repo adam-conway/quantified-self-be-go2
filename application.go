@@ -9,8 +9,8 @@ import (
   "github.com/jinzhu/gorm"
   _ "github.com/jinzhu/gorm/dialects/postgres"
   "github.com/gorilla/mux"
-  "github.com/gorilla/handlers"
-  // "github.com/rs/cors"
+  // "github.com/gorilla/handlers"
+  "github.com/rs/cors"
   "github.com/adam-conway/quantified-self-be-go/models"
   "github.com/adam-conway/quantified-self-be-go/config"
   "github.com/adam-conway/quantified-self-be-go/handler"
@@ -28,11 +28,12 @@ func main() {
   if port == "" {
     port = "8080"
   }
-
-  allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With"})
-  allowedOrigins := handlers.AllowedOrigins([]string{"*"})
-  allowedMethods := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"})
-
+  c := cors.New(cors.Options{
+      AllowedHeaders: []string{"X-Requested-With"},
+      AllowedOrigins: []string{"*"},
+      AllowedMethods: []string{"GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"},
+      Debug: true,
+  })
 
   router := mux.NewRouter()
   router.HandleFunc("/api/v1/foods/", a.GetFoods).Methods("GET")
@@ -44,8 +45,8 @@ func main() {
   router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}", a.CreateMealFood).Methods("POST")
   router.HandleFunc("/api/v1/meals/{id}/foods/", a.GetMeal).Methods("GET")
   router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}", a.DeleteMealFood).Methods("DELETE")
-  // handler := cors.Default().Handler(router)
-  log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(allowedHeaders, allowedOrigins, allowedMethods)(router)))
+  handler := c.Handler(router)
+  log.Fatal(http.ListenAndServe(":"+port, handler))
 }
 
 func (a *App) GetFoods(w http.ResponseWriter, r *http.Request) {
