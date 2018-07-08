@@ -3,6 +3,7 @@ package handler
 import (
   "net/http"
   "encoding/json"
+  "fmt"
 
   "github.com/gorilla/mux"
   "github.com/jinzhu/gorm"
@@ -57,6 +58,8 @@ func CreateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
   }
 
   defer r.Body.Close()
+  fmt.Println(food.Name)
+  fmt.Println(food.Calories)
   db.NewRecord(food)
   if err := db.Create(&food).Error; err != nil {
     RespondError(w, http.StatusInternalServerError, err.Error())
