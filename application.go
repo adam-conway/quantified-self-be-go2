@@ -9,8 +9,8 @@ import (
   "github.com/jinzhu/gorm"
   _ "github.com/jinzhu/gorm/dialects/postgres"
   "github.com/gorilla/mux"
-  // "github.com/gorilla/handlers"
-  "github.com/rs/cors"
+  "github.com/gorilla/handlers"
+  // "github.com/rs/cors"
   "github.com/adam-conway/quantified-self-be-go/models"
   "github.com/adam-conway/quantified-self-be-go/config"
   "github.com/adam-conway/quantified-self-be-go/handler"
@@ -28,25 +28,18 @@ func main() {
   if port == "" {
     port = "8080"
   }
-  c := cors.New(cors.Options{
-      AllowedHeaders: []string{"X-Requested-With"},
-      AllowedOrigins: []string{"*"},
-      AllowedMethods: []string{"GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"},
-      Debug: true,
-  })
 
   router := mux.NewRouter()
   router.HandleFunc("/api/v1/foods/", a.GetFoods).Methods("GET")
-  router.HandleFunc("/api/v1/foods/{id}", a.DeleteFood).Methods("DELETE")
+  router.HandleFunc("/api/v1/foods/{id}/", a.DeleteFood).Methods("DELETE")
   router.HandleFunc("/api/v1/meals/", a.GetMeals).Methods("GET")
   router.HandleFunc("/api/v1/foods/{id}/", a.GetFood).Methods("GET")
-  router.HandleFunc("/api/v1/foods", a.CreateFood).Methods("POST")
-  router.HandleFunc("/api/v1/foods/{id}", a.UpdateFood).Methods("PUT")
-  router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}", a.CreateMealFood).Methods("POST")
+  router.HandleFunc("/api/v1/foods/", a.CreateFood).Methods("POST")
+  router.HandleFunc("/api/v1/foods/{id}/", a.UpdateFood).Methods("PUT")
+  router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}/", a.CreateMealFood).Methods("POST")
   router.HandleFunc("/api/v1/meals/{id}/foods/", a.GetMeal).Methods("GET")
-  router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}", a.DeleteMealFood).Methods("DELETE")
-  handler := c.Handler(router)
-  log.Fatal(http.ListenAndServe(":"+port, handler))
+  router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}/", a.DeleteMealFood).Methods("DELETE")
+  log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(router)))
 }
 
 func (a *App) GetFoods(w http.ResponseWriter, r *http.Request) {
