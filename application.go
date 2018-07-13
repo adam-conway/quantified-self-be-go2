@@ -80,12 +80,15 @@ func (a *App) DeleteMealFood(w http.ResponseWriter, r *http.Request) {
 
 
 func (a *App) Init(config *config.Config) {
-  dbParams := fmt.Sprintf("dbname=d4r0mtqvg964h6 host=ec2-107-22-174-187.compute-1.amazonaws.com port=5432 user=ibzmywfflhxzuc password=8c42e1e51a2bf5660a9d104bb726067eb375b484bd367e585a3c447ee88f1971 sslmode=require")
-    // config.DB.Host,
-    // config.DB.Port,
-    // config.DB.User,
-    // config.DB.DBName,
-    // config.DB.SSLMode)
+  // dbParams := fmt.Sprintf("dbname=d4r0mtqvg964h6 host=ec2-107-22-174-187.compute-1.amazonaws.com port=5432 user=ibzmywfflhxzuc password=8c42e1e51a2bf5660a9d104bb726067eb375b484bd367e585a3c447ee88f1971 sslmode=require")
+  dbParams := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
+    config.DB.Host,
+    config.DB.Port,
+    config.DB.User,
+    config.DB.Password,
+    config.DB.DBName,
+    config.DB.SSLMode,
+  )
 
   var err error
   a.DB, err = gorm.Open("postgres", dbParams)
