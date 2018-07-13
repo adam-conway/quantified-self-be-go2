@@ -3,14 +3,18 @@ package handler
 import (
   "net/http"
   "encoding/json"
-  "fmt"
-  "strconv"
+  // "fmt"
+  "io/ioutil"
 
   "github.com/gorilla/mux"
   "github.com/jinzhu/gorm"
   _ "github.com/jinzhu/gorm/dialects/postgres"
   "github.com/adam-conway/quantified-self-be-go/models"
 )
+
+type FoodStruct struct {
+    Food models.Food `json:"food"`
+}
 
 func GetFoods(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
   foods := []models.Food{}
@@ -51,26 +55,11 @@ func UpdateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
-  food := models.Food{}
-  params := mux.Vars(r)
-  fmt.Println(params["name"])
-  calories, err := strconv.ParseUint(params["calories"], 10, 32)
-  if err != nil {
-        fmt.Println(err)
-    }
-  foodcalories := uint(calories)
-  fmt.Println(foodcalories)
-  food.Name = params["name"]
-  food.Calories = foodcalories
-  decoder := json.NewDecoder(r.Body)
-  if err := decoder.Decode(&food); err != nil {
-    RespondError(w, http.StatusBadRequest, err.Error())
-    return
-  }
-
-  defer r.Body.Close()
-  db.NewRecord(food)
-  if err := db.Create(&food).Error; err != nil {
+  var food FoodStruct
+  body, _ := ioutil.ReadAll(r.Body)
+  json.Unmarshal(body, &food)
+  db.NewRecord(food.Food)
+  if err := db.Create(&food.Food).Error; err != nil {
     RespondError(w, http.StatusInternalServerError, err.Error())
     return
   } else {
