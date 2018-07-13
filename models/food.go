@@ -7,7 +7,7 @@ import (
 
 type Food struct {
   // gorm.Model
-  ID       uint `json: id`
-  Name string `gorm: "type:varchar(100)" json: "name"`
-  Calories string `json: "calories"`
+  ID       uint   `json:"id"`
+  Name     string `json:"name"`
+  Calories string `json:"calories"`
 }
