@@ -8,6 +8,7 @@ import (
 type Meal struct {
   // gorm.Model
 
+  ID   uint `json: id`
   Name string `gorm: "type:varchar(100)" json: "name"`
   Foods []*Food `gorm:"many2many:meal_foods;"`
 }

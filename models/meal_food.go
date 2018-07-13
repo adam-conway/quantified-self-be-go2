@@ -8,6 +8,7 @@ import (
 type MealFood struct {
   // gorm.Model
 
+  ID  uint `json: id`
   Meal Meal
   MealID uint
   Food Food

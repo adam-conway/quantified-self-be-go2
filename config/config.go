@@ -31,6 +31,13 @@ func GetConfig() *Config {
       // User: "adamconway",
       // DBName: "adamconway",
       // SSLMode: "disable",
+      
+      // "dbname=d4r0mtqvg964h6
+      // host=ec2-107-22-174-187.compute-1.amazonaws.com
+      // port=5432
+      // user=ibzmywfflhxzuc
+      // password=8c42e1e51a2bf5660a9d104bb726067eb375b484bd367e585a3c447ee88f1971
+      // sslmode=require"
     },
   }
 }
