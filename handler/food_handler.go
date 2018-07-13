@@ -3,7 +3,7 @@ package handler
 import (
   "net/http"
   "encoding/json"
-  // "fmt"
+  "fmt"
   "io/ioutil"
 
   "github.com/gorilla/mux"

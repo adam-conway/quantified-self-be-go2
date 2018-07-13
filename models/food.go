@@ -9,5 +9,5 @@ type Food struct {
   // gorm.Model
   ID       uint `json: id`
   Name string `gorm: "type:varchar(100)" json: "name"`
-  Calories uint `json: "calories"`
+  Calories string `json: "calories"`
 }
