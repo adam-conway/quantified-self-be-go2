@@ -62,6 +62,6 @@ func CreateFood(db *gorm.DB, w http.ResponseWriter, r *http.Request) {
     RespondError(w, http.StatusInternalServerError, err.Error())
     return
   } else {
-    RespondJSON(w, http.StatusCreated, food)
+    RespondJSON(w, http.StatusCreated, food.Food)
   }
 }

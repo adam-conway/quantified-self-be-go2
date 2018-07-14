@@ -10,7 +10,6 @@ import (
   _ "github.com/jinzhu/gorm/dialects/postgres"
   "github.com/gorilla/mux"
   "github.com/gorilla/handlers"
-  // "github.com/rs/cors"
   "github.com/adam-conway/quantified-self-be-go/models"
   "github.com/adam-conway/quantified-self-be-go/config"
   "github.com/adam-conway/quantified-self-be-go/handler"
@@ -26,7 +25,7 @@ func main() {
   a.Init(config)
   port := os.Getenv("PORT")
   if port == "" {
-    port = "8080"
+    port = "3000"
   }
 
   router := mux.NewRouter()
