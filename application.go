@@ -30,7 +30,7 @@ func main() {
 
   router := mux.NewRouter()
   router.HandleFunc("/api/v1/foods/", a.GetFoods).Methods("GET")
-  router.HandleFunc("/api/v1/foods/{id}/", a.DeleteFood).Methods("DELETE")
+  router.HandleFunc("/api/v1/foods/{id}", a.DeleteFood).Methods("DELETE")
   router.HandleFunc("/api/v1/meals/", a.GetMeals).Methods("GET")
   router.HandleFunc("/api/v1/foods/{id}/", a.GetFood).Methods("GET")
   router.HandleFunc("/api/v1/foods/", a.CreateFood).Methods("POST")
@@ -38,7 +38,7 @@ func main() {
   router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}/", a.CreateMealFood).Methods("POST")
   router.HandleFunc("/api/v1/meals/{id}/foods/", a.GetMeal).Methods("GET")
   router.HandleFunc("/api/v1/meals/{meal_id}/foods/{id}/", a.DeleteMealFood).Methods("DELETE")
-  log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(router)))
+  log.Fatal(http.ListenAndServe(":"+port, handlers.CORS(handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}), handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "DELETE", "OPTIONS"}), handlers.AllowedOrigins([]string{"*"}))(router)))
 }
 
 func (a *App) GetFoods(w http.ResponseWriter, r *http.Request) {
